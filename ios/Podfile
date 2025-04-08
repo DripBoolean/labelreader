@@ -1,13 +1,15 @@
-platform :ios, '18.3'
+platform :ios, '15.5'
+project 'VisionExample.xcodeproj'
 
 project 'LabelReader.xcodeproj'
 
-pod 'GoogleMLKit/TextRecognitionChinese', '~> 7.0.0'
-pod 'GoogleMLKit/TextRecognitionDevanagari', '~> 7.0.0'
-pod 'GoogleMLKit/TextRecognitionJapanese', '~> 7.0.0'
-pod 'GoogleMLKit/TextRecognitionKorean', '~> 7.0.0'
+pod 'GoogleMLKit/TextRecognition', '8.0.0'
+pod 'GoogleMLKit/TextRecognitionChinese', '8.0.0'
+pod 'GoogleMLKit/TextRecognitionDevanagari', '8.0.0'
+pod 'GoogleMLKit/TextRecognitionJapanese', '8.0.0'
+pod 'GoogleMLKit/TextRecognitionKorean', '8.0.0'
 
-$iOSVersion = '18.3' 
+$iOSVersion = '15.5' 
 
 post_install do |installer|
   installer.pods_project.build_configurations.each do |config|
