@@ -1,15 +1,15 @@
-platform :ios, '18.3'  # or newer version
+platform :ios, '18.3'
+
+project 'LabelReader.xcodeproj'
 
 pod 'GoogleMLKit/TextRecognitionChinese', '~> 7.0.0'
 pod 'GoogleMLKit/TextRecognitionDevanagari', '~> 7.0.0'
 pod 'GoogleMLKit/TextRecognitionJapanese', '~> 7.0.0'
 pod 'GoogleMLKit/TextRecognitionKorean', '~> 7.0.0'
 
-# add this line:
-$iOSVersion = '18.3'  # or newer version
+$iOSVersion = '18.3' 
 
 post_install do |installer|
-  # add these lines:
   installer.pods_project.build_configurations.each do |config|
     config.build_settings["EXCLUDED_ARCHS[sdk=*]"] = "armv7"
     config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = $iOSVersion
@@ -18,7 +18,6 @@ post_install do |installer|
   installer.pods_project.targets.each do |target|
     flutter_additional_ios_build_settings(target)
 
-    # add these lines:
     target.build_configurations.each do |config|
       if Gem::Version.new($iOSVersion) > Gem::Version.new(config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'])
         config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = $iOSVersion
