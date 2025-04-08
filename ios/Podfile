@@ -1,10 +1,21 @@
 platform :ios, '15.5'
-use_frameworks!
+
+pod 'GoogleMLKit/TextRecognition', '8.0.0'
+pod 'GoogleMLKit/TextRecognitionChinese', '8.0.0'
+pod 'GoogleMLKit/TextRecognitionDevanagari', '8.0.0'
+pod 'GoogleMLKit/TextRecognitionJapanese', '8.0.0'
+pod 'GoogleMLKit/TextRecognitionKorean', '8.0.0'
+
 
 target 'Runner' do
-    pod 'GoogleMLKit/TextRecognition', '8.0.0'
-    pod 'GoogleMLKit/TextRecognitionChinese', '8.0.0'
-    pod 'GoogleMLKit/TextRecognitionDevanagari', '8.0.0'
-    pod 'GoogleMLKit/TextRecognitionJapanese', '8.0.0'
-    pod 'GoogleMLKit/TextRecognitionKorean', '8.0.0'
+    use_frameworks!
+end
+
+
+post_install do |pi|
+    pi.pods_project.targets.each do |t|
+      t.build_configurations.each do |config|
+        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '15.5’
+      end
+    end
 end
