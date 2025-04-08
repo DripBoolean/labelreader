@@ -1,0 +1,29 @@
+{
+    "Vegetarian": [
+        "BEEF",
+        "CHICKEN",
+        "FISH",
+        "LARD",
+        "PORK",
+        "GELATIN",
+        "TALLOW",
+        "COLLAGEN",
+        "SHRIMP",
+        "SNAIL",
+        "OYSTER",
+        "SEAFOOD",
+        "SHELLFISH"
+    ],
+    "Vegan": [
+        "EGG",
+        "EGGS",
+        "DIARY",
+        "MILK",
+        "CHEESE",
+        "LACTOSE",
+        "HONEY",
+        "MUSK",
+        "RETINOL",
+        "WHEY"
+    ]
+}
