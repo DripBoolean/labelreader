@@ -6,10 +6,5 @@ target 'Runner' do
   use_frameworks!
 
   # Pods for Runner
-  pod 'camera_avfoundation', '0.9.18+13'
-  target 'RunnerTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
+  pod 'camera_avfoundation', '~> 0.9.0'
 end
