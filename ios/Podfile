@@ -11,7 +11,7 @@ pod 'GoogleMLKit/TextRecognitionKorean', '8.0.0'
 
 $iOSVersion = '15.5' 
 
-target 'VisionExample' do
+target 'LabelReader' do
 end
 
 post_install do |installer|
