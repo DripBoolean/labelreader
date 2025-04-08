@@ -1,7 +1,7 @@
 platform :ios, '15.5'
 use_frameworks!
 
-target 'LabelReader' do
+target 'Runner' do
     pod 'GoogleMLKit/TextRecognition', '8.0.0'
     pod 'GoogleMLKit/TextRecognitionChinese', '8.0.0'
     pod 'GoogleMLKit/TextRecognitionDevanagari', '8.0.0'
