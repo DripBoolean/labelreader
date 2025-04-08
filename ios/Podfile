@@ -9,6 +9,12 @@ pod 'GoogleMLKit/TextRecognitionKorean', '8.0.0'
 
 target 'Runner' do
     use_frameworks!
+
+    pod 'camera', '~> 0.11.1'
+    pod 'path_provider', '~> 2.1.5'
+    pod 'path', '~> 1.9.1'
+    pod 'camera_avfoundation', '~> 0.9.13+1'
+    pod 'google_mlkit_text_recognition', '-> 0.15.0'
 end
 
 
