@@ -1,19 +1,22 @@
 platform :ios, '15.5'
 
+
 pod 'GoogleMLKit/TextRecognition', '8.0.0'
 pod 'GoogleMLKit/TextRecognitionChinese', '8.0.0'
 pod 'GoogleMLKit/TextRecognitionDevanagari', '8.0.0'
 pod 'GoogleMLKit/TextRecognitionJapanese', '8.0.0'
 pod 'GoogleMLKit/TextRecognitionKorean', '8.0.0'
 
+source 'https://cdn.cocoapods.org/'
+
 
 target 'Runner' do
     use_frameworks!
 
-    pod 'camera', '>= 0.10.5'
-    pod 'path_provider', '>= 2.1.5'
-    pod 'path', '>= 1.9.1'
-    pod 'google_mlkit_text_recognition', '>= 0.15.0'
+    pod 'camera', '~> 0.11.1'
+    pod 'path_provider', '~> 2.1.5'
+    pod 'path', '~> 1.9.1'
+    pod 'google_mlkit_text_recognition', '~> 0.15.0'
 end
 
 
