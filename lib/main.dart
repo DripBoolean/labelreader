@@ -33,8 +33,10 @@ class _CameraAppState extends State<CameraApp> {
   var inCapture = false;
   var textRecognizer = TextRecognizer(script: TextRecognitionScript.latin);
   XFile? image;
-  var imageText = "I Like Pizza";
+  Map<String, Set<String>> foundText = {"Vegan": <String>{}, "Vegetarian": <String>{}};
   late Map vDict;
+  var expansionData = {"Vegan": false, "Vegetarian": false};
+  var containsExclusionary = false;
 
   void initVDict() async {
     var temp = jsonDecode(await rootBundle.loadString('assets/v_data.json'));
@@ -96,7 +98,7 @@ class _CameraAppState extends State<CameraApp> {
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: AspectRatio(
-                aspectRatio: 1.0,
+                aspectRatio: 0.7,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(12),
                   child: Builder(
@@ -116,27 +118,106 @@ class _CameraAppState extends State<CameraApp> {
             ),
             Builder(
               builder: (context) {
+                if (containsExclusionary) {
+                  print("Doing it!");
+                  return Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Card(
+                      child: ExpansionPanelList(
+                      expansionCallback: (index, isExpanded) {
+                        setState(() {
+                          if (foundText["Vegan"]!.isEmpty) {
+                            expansionData["Vegetarian"] = isExpanded;
+                            return;
+                          }
+                          if (foundText["Vegetarian"]!.isEmpty) {
+                            expansionData["Vegan"] = isExpanded;
+                            return;
+                          }
+                          expansionData[["Vegan", "Vegetarian"][index]] = isExpanded;
+                            
+                        });
+                      },
+                      children: [
+                        for (var key in foundText.keys.where((item) => foundText[item]!.isNotEmpty))
+                          //if (foundText[key]!.isNotEmpty)
+                          ExpansionPanel(headerBuilder: (context, isExpanded) {
+                            return Center(child: Text("Non-$key"));
+                          }, 
+                          body: Column(
+                            children: [
+                              for (var item in foundText[key]!) 
+                                Text(item),
+                            ],
+                          ),
+                          isExpanded: expansionData[key]!
+                          ),
+                        // ExpansionPanel(headerBuilder: (context, isExpanded) {
+                        //   return Center(child: Text("Non-Vegetarian"));
+                        // }, 
+                        // body: Column(
+                        //   children: [
+                        //     for (var item in foundText["Vegetarian"]!) 
+                        //       Text(item),
+                        //   ],
+                        // ),
+                        // isExpanded: expansionData[1]
+                        // ),
+                      ],),
+                    ),
+                  
+                  );
+                } else {
+                  if (inCapture) {
+                    return Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text("Looks good to me!"),
+                        )),
+                    );
+                  } else {
+                    return Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text("Take a photo to scan"),
+                        )
+                      ),
+                    );
+                  }
+                }
+              }
+            ),
+
+            Builder(
+              builder: (context) {
                 if (!inCapture) {
                   return FloatingActionButton(
                     onPressed: () async {
                       try {
-                        print(await rootBundle.loadString('assets/v_data.json'));
+                        // print(await rootBundle.loadString('assets/v_data.json'));
                         // print(await File("assets/v_data.json").readAsString());
                         image = await controller.takePicture();
                         inCapture = true;
                         var recognizedText = (await textRecognizer.processImage(InputImage.fromFile(File(image!.path)))).text;
                         
-                        imageText = "";
+                        containsExclusionary = false;
+                        foundText = {"Vegan": {}, "Vegetarian": {}};
 
                         RegExp exp = RegExp(r'(\w+)');
                         Iterable<RegExpMatch> matches = exp.allMatches(recognizedText);
                         for (final m in matches) {
                           var mStr = m.group(0)!.toUpperCase();
+                          print(mStr);
                           if (vDict.containsKey(mStr)) {
-                            imageText += "$mStr ";
+                            containsExclusionary = true;
+                            foundText[vDict[mStr]!]!.add(mStr);
                           }
                         }
-
+                        print(foundText);
                         
                         setState(() {});
                       } catch (e) {
@@ -156,10 +237,26 @@ class _CameraAppState extends State<CameraApp> {
                 }
               }
             ),
-            Text(imageText),
+
           ],
         )
       ),
     );
+  }
+}
+
+class Expandable extends StatelessWidget {
+  Expandable({required this.title, required this.items, super.key});
+
+  final String title;
+  final List<String> items;
+
+  @override Widget build(BuildContext context) {
+    return Column(children: [
+      Row(children: [
+        ExpandIcon(onPressed: (_) {}),
+        Text(title)
+      ],),
+    ],);
   }
 }
